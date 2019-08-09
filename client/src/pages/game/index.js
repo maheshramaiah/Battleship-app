@@ -12,17 +12,16 @@ function Game() {
   const [{ socket, roomId }] = useSocket();
   const notificationManager = useNotification();
 
-  // useEffect(() => {
-  //   function onunload(e) {
-  //     e.preventDefault();
-  //     e.returnValue = true;
-  //   }
-  //   window.addEventListener('beforeunload', onunload);
+  useEffect(() => {
+    function onunload(e) {
+      socket.emit('PLAYER_DISCONNECT', roomId);
+    }
+    window.addEventListener('beforeunload', onunload);
 
-  //   return () => {
-  //     window.removeEventListener('beforeunload', onunload);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener('beforeunload', onunload);
+    };
+  }, []);
 
   useEffect(() => {
     if (!roomId) {
@@ -34,6 +33,7 @@ function Game() {
     socket.on('YOUR_TURN', () => dispatch({ type: 'SET_TURN', isTurn: true }));
     socket.on('FIRE_RECIEVED', onFireReceived);
     socket.on('GAME_STATUS', onGameStatus);
+    socket.on('LOGOUT', () => window.location.href = '/');
   }, []);
 
   useEffect(() => {

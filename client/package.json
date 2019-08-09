@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "prod": "webpack --mode='production' && rimraf ../public/**/*.map"
   },
   "author": "Mahesh Ramaiah",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "babel-loader": "^8.0.5",
     "css-loader": "^1.0.0",
     "file-loader": "^4.1.0",
+    "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",

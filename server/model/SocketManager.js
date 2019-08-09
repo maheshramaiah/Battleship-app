@@ -13,6 +13,7 @@ class SocketManager {
     socket.on('PLAYER_READY', this.playerReady.bind(this, socket));
     socket.on('ON_SHOOT', this.onShoot.bind(this, socket));
     socket.on('ON_SHOOT_ACK', this.onShootAck.bind(this, socket));
+    socket.on('PLAYER_DISCONNECT', this.onPlayerDisconnet.bind(this, socket));
   }
 
   createRoom(socket, roomId) {
@@ -63,6 +64,11 @@ class SocketManager {
     }
 
     room.getCurrentPlayerSocket().emit('YOUR_TURN');
+  }
+
+  onPlayerDisconnet(socket, roomId) {
+    this.io.sockets.in(roomId).emit('LOGOUT');
+    delete (this.rooms[roomId]);
   }
 }
 
