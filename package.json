@@ -1,0 +1,25 @@
+{
+  "name": "battleship-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "./server.js",
+      "./server/"
+    ]
+  }
+}

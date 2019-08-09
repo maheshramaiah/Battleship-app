@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Lato Regular"), local("Lato-Regular"), url("./assets/fonts/Lato-Regular.woff") format("woff");
+}
+
+body {
+  font-family: "Lato";
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background: #333;
+}
