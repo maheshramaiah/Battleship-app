@@ -15,7 +15,7 @@ app.get('*', (req, res) => {
 
 io = io(server);
 
-server.listen(3000, () => {
+server.listen(port, () => {
   new SocketManager(io);
   console.log(`Server listening on port ${port}`);
 });
