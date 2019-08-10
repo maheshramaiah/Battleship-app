@@ -18,7 +18,7 @@ export const Ships = styled.ul`
 		border-bottom: 1px solid #fff;
 		color: #fff;
 		margin-right: 10px;
-		width: 200px;
+		width: 250px;
 		font-size: 14px;
 
 		&:focus {
@@ -31,7 +31,8 @@ export const Ships = styled.ul`
 	}
 
 	li {
-		padding: 5px;
+    padding: 5px;
+    text-align: center;
 	}
 `;
 

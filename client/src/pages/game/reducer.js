@@ -86,17 +86,18 @@ export function reducer(draft, action) {
     case 'ON_FIRE_RECEIVED': {
       const { row, col } = action;
       const cell = draft.myBoard[row][col];
-      const isHit = cell.isShip && !cell.isHit;
 
-      if (cell.isShip && isHit) {
-        draft.health[cell.value] -= 1;
-        draft.myBoard[row][col].isHit = true;
-      }
-      else {
-        draft.myBoard[row][col].value = 'X';
+      if (!cell.isHit) {
+        if (cell.isShip) {
+          draft.health[cell.value] -= 1;
+          draft.myBoard[row][col].isHit = true;
+        }
+        else {
+          draft.myBoard[row][col].value = 'X';
+        }
       }
       draft.status = {
-        isHit,
+        isHit: draft.myBoard[row][col].isHit,
         isGame: Object.values(draft.health).every(length => length === 0),
         message: draft.health[cell.value] === 0 ? `Ship ${draft.ships[cell.value].name} destroyed` : '',
         row,

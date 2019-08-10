@@ -18,7 +18,7 @@ export const LoginContainer = styled.div`
   box-sizing: border-box;
   align-items: center;
   span {
-    margin: 10px 0;
+    margin: 10px;
     color: #007bff;
   }
 
@@ -32,6 +32,10 @@ export const LoginContainer = styled.div`
 
     &:focus {
       outline: none;
+    }
+
+    @media (max-width: 768px) {
+      width: 80%;
     }
   }
 `;

@@ -18,6 +18,10 @@ export const BoardWrap = styled.div`
     opacity: 0.5;
     pointer-events: none;
   `}
+
+  @media (max-width: 768px) {
+    margin: 30px 0 0 30px;
+  }
 `;
 
 export const Row = styled.ul`
@@ -41,6 +45,7 @@ export const Cell = styled.li`
   min-width: 50px;
   min-height: 50px;
   box-sizing: border-box;
+  cursor: pointer;
 
   ${props => props.isHit && css`
     &:before {
@@ -49,11 +54,22 @@ export const Cell = styled.li`
       position: absolute;
       opacity: 0.5;
       font-size: 35px;
+
+      @media (max-width: 768px) {
+        font-size: 20px;
+      }
     }
+    pointer-events: none;
   `}
 
   &:last-child {
     border-right: 0;
+  }
+
+  @media (max-width: 768px) {
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 12px;
   }
 `;
 
@@ -66,6 +82,10 @@ export const Indicator = styled.ul`
 
   ${props => props.row && css`
     top: -50px;
+
+    @media (max-width: 768px) {
+      top: -30px;
+    }
   `}
 
   ${props => props.col && css`
@@ -73,8 +93,12 @@ export const Indicator = styled.ul`
     flex-direction: column;
     left: -50px;
 
+    @media (max-width: 768px) {
+      left: -30px;
+    }
+
     li {
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid transparent;
     }
   `}
 
@@ -85,5 +109,11 @@ export const Indicator = styled.ul`
     color: #fff;
     min-width: 50px;
     min-height: 50px;
+
+    @media (max-width: 768px) {
+      min-width: 30px;
+      min-height: 30px;
+      font-size: 12px;
+    }
   }
 `;

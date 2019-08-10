@@ -19,7 +19,7 @@ function Board({ board, title, disabled, onClick }) {
                   const cell = board[rowIndex][colIndex];
 
                   return (
-                    <Cell key={colIndex} onClick={() => onClick(rowIndex, colIndex)} isHit={cell.isHit}>
+                    <Cell key={colIndex} onClick={() => !cell.isHit && onClick(rowIndex, colIndex)} isHit={cell.isHit}>
                       {cell.value}
                     </Cell>
                   )

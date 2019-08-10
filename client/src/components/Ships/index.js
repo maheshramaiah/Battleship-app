@@ -11,7 +11,7 @@ export default ({ ships, positions, onChange, onBlur, disabled }) => {
             <li key={index}>
               <ShipName>{ship.name} ( Code: {key}, Size: {ship.length})</ShipName>
               <input
-                placeholder='Cell: A0-J9, Axis: 1 OR 0'
+                placeholder='eg: a0,0 (ath row, 0th col horizontal)'
                 value={positions[key]}
                 onChange={e => onChange(e.target.value, key)}
                 onBlur={e => onBlur(e.target.value, key)}

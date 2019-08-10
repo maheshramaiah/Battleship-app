@@ -77,6 +77,7 @@ function Game() {
         dispatch({ type: 'ON_BOARD_SHIP', position, ship });
       }
       else {
+        dispatch({ type: 'SHIP_POSITION', position: state.previousPositions[ship] || '', ship })
         notificationManager.push('Invalid positioning');
       }
     }
