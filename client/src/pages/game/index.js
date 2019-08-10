@@ -84,7 +84,10 @@ function Game() {
   }
 
   function gameOver(won) {
-    dispatch({ type: 'GAME_OVER', status: won ? 'Won' : 'Lost' })
+    const msg = won ? 'Won' : 'Lost';
+
+    notificationManager.push(msg);
+    dispatch({ type: 'GAME_OVER', status: msg });
   }
 
   return (
