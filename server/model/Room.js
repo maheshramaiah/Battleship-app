@@ -37,7 +37,8 @@ class Room {
   setNextPlayer() {
     const players = Object.keys(this.players);
 
-    this.currentPlayer = this.currentPlayer === players[0] ? players[1] : players[0];
+    this.currentPlayer =
+      this.currentPlayer === players[0] ? players[1] : players[0];
   }
 }
 

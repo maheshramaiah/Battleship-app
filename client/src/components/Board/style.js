@@ -14,10 +14,12 @@ export const BoardWrap = styled.div`
   position: relative;
   margin: 50px 0 0 50px;
 
-  ${props => props.disabled && css`
-    opacity: 0.5;
-    pointer-events: none;
-  `}
+  ${props =>
+    props.disabled &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `}
 
   @media (max-width: 768px) {
     margin: 30px 0 0 30px;
@@ -47,20 +49,22 @@ export const Cell = styled.li`
   box-sizing: border-box;
   cursor: pointer;
 
-  ${props => props.isHit && css`
-    &:before {
-      content: 'X';
-      color: red;
-      position: absolute;
-      opacity: 0.5;
-      font-size: 35px;
+  ${props =>
+    props.isHit &&
+    css`
+      &:before {
+        content: 'X';
+        color: red;
+        position: absolute;
+        opacity: 0.5;
+        font-size: 35px;
 
-      @media (max-width: 768px) {
-        font-size: 20px;
+        @media (max-width: 768px) {
+          font-size: 20px;
+        }
       }
-    }
-    pointer-events: none;
-  `}
+      pointer-events: none;
+    `}
 
   &:last-child {
     border-right: 0;
@@ -80,27 +84,31 @@ export const Indicator = styled.ul`
   margin: 0;
   position: absolute;
 
-  ${props => props.row && css`
-    top: -50px;
+  ${props =>
+    props.row &&
+    css`
+      top: -50px;
 
-    @media (max-width: 768px) {
-      top: -30px;
-    }
-  `}
+      @media (max-width: 768px) {
+        top: -30px;
+      }
+    `}
 
-  ${props => props.col && css`
-    top: 0px;
-    flex-direction: column;
-    left: -50px;
+  ${props =>
+    props.col &&
+    css`
+      top: 0px;
+      flex-direction: column;
+      left: -50px;
 
-    @media (max-width: 768px) {
-      left: -30px;
-    }
+      @media (max-width: 768px) {
+        left: -30px;
+      }
 
-    li {
-      border-bottom: 1px solid transparent;
-    }
-  `}
+      li {
+        border-bottom: 1px solid transparent;
+      }
+    `}
 
   li {
     display: flex;

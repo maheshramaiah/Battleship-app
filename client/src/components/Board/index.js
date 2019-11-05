@@ -9,27 +9,31 @@ function Board({ board, title, disabled, onClick }) {
       <Title>{title}</Title>
       <BoardWrap disabled={disabled}>
         <Indicator row={true}>
-          {indicators.map((_, index) => <li key={index}>{index}</li>)}
+          {indicators.map((_, index) => (
+            <li key={index}>{index}</li>
+          ))}
         </Indicator>
-        {
-          board.map((row, rowIndex) => (
-            <Row key={rowIndex}>
-              {
-                row.map((col, colIndex) => {
-                  const cell = board[rowIndex][colIndex];
+        {board.map((row, rowIndex) => (
+          <Row key={rowIndex}>
+            {row.map((col, colIndex) => {
+              const cell = board[rowIndex][colIndex];
 
-                  return (
-                    <Cell key={colIndex} onClick={() => !cell.isHit && onClick(rowIndex, colIndex)} isHit={cell.isHit}>
-                      {cell.value}
-                    </Cell>
-                  )
-                })
-              }
-            </Row>
-          ))
-        }
+              return (
+                <Cell
+                  key={colIndex}
+                  onClick={() => !cell.isHit && onClick(rowIndex, colIndex)}
+                  isHit={cell.isHit}
+                >
+                  {cell.value}
+                </Cell>
+              );
+            })}
+          </Row>
+        ))}
         <Indicator col={true}>
-          {indicators.map((_, index) => <li key={index}>{String.fromCharCode(65 + index)}</li>)}
+          {indicators.map((_, index) => (
+            <li key={index}>{String.fromCharCode(65 + index)}</li>
+          ))}
         </Indicator>
       </BoardWrap>
     </Container>
@@ -37,7 +41,7 @@ function Board({ board, title, disabled, onClick }) {
 }
 
 Board.defaultProps = {
-  onClick: () => { }
+  onClick: () => {}
 };
 
 export default Board;

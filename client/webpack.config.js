@@ -1,9 +1,14 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
+const PwaManifestWebpackPlugin = require('pwa-manifest-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+//   .BundleAnalyzerPlugin;
 
 module.exports = {
   mode: 'development',
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   entry: './src/index.js',
   target: 'web',
   output: {
@@ -36,7 +41,7 @@ module.exports = {
         test: /(\.scss)$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: MiniCssExtractPlugin.loader
           },
           {
             loader: 'css-loader'
@@ -56,9 +61,28 @@ module.exports = {
       }
     ]
   },
-  plugins: [new HtmlWebpackPlugin({
-    title: 'Events booking',
-    filename: 'index.html',
-    template: './src/index.html'
-  })]
-}
+  plugins: [
+    new MiniCssExtractPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Battleship',
+      filename: 'index.html',
+      template: './src/index.html'
+    }),
+    new InjectManifest({
+      swSrc: './src/sw.js',
+      precacheManifestFilename: 'precache.[manifestHash].js'
+    }),
+    new PwaManifestWebpackPlugin({
+      name: 'Battleship',
+      short_name: 'Battleship',
+      icon: {
+        src: path.resolve('src/assets/icon.png'),
+        sizes: [512, 384, 192, 152, 144, 128, 96, 72]
+      },
+      start_url: '/',
+      theme_color: '#333',
+      background_color: '#e4e4e4'
+    })
+    //new BundleAnalyzerPlugin()
+  ]
+};

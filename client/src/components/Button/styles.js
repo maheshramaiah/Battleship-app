@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ButtonWrap = styled.button`
   background: #007bff;
@@ -10,8 +10,10 @@ export const ButtonWrap = styled.button`
   text-transform: uppercase;
   cursor: pointer;
 
-  ${props => props.disabled && css`
-    opacity: 0.5;
-    pointer-events: none;
-  `}
+  ${props =>
+    props.disabled &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `}
 `;

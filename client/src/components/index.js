@@ -4,10 +4,4 @@ import Ships from './Ships';
 import Banner from './Banner';
 import NotificationManager from './Banner/Manager';
 
-export {
-  Button,
-  Board,
-  Ships,
-  Banner,
-  NotificationManager
-};
+export { Button, Board, Ships, Banner, NotificationManager };

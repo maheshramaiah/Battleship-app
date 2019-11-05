@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import history from '../../history';
 import { useSocket } from '../../context/socket';
 import { useNotification } from '../../context/notification';
+import { useOnline } from '../../hooks/useOnline';
 import { Button } from '../../components';
 import { Container, LoginContainer } from './style';
 
-function Login() {
+function Login({ history }) {
   const [roomId, setRoomId] = useState('');
   const [io, dispatch] = useSocket();
   const notificationManager = useNotification();
+  const { isOnline } = useOnline();
   const { socket } = io;
 
   useEffect(() => {
@@ -33,16 +34,24 @@ function Login() {
   return (
     <Container>
       <LoginContainer>
-        {
-          io.roomId ?
-            <span>Room {io.roomId} created, Share it with your friend to start game</span>
-            :
-            <React.Fragment>
-              <Button onClick={createRoom}>Create room</Button>
-              <span>OR</span>
-              <input value={roomId} onChange={(e) => setRoomId(e.target.value)} onKeyDown={joinRoom} placeholder='Enter a room to join' />
-            </React.Fragment>
-        }
+        {!isOnline ? (
+          'You are offline'
+        ) : io.roomId ? (
+          <span>
+            Room {io.roomId} created, Share it with your friend to start game
+          </span>
+        ) : (
+          <>
+            <Button onClick={createRoom}>Create room</Button>
+            <span>OR</span>
+            <input
+              value={roomId}
+              onChange={e => setRoomId(e.target.value)}
+              onKeyDown={joinRoom}
+              placeholder="Enter a room to join"
+            />
+          </>
+        )}
       </LoginContainer>
     </Container>
   );

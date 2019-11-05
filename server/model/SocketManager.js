@@ -68,7 +68,7 @@ class SocketManager {
 
   onPlayerDisconnet(socket, roomId) {
     this.io.sockets.in(roomId).emit('LOGOUT');
-    delete (this.rooms[roomId]);
+    delete this.rooms[roomId];
   }
 }
 

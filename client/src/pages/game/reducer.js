@@ -1,5 +1,10 @@
 import { ships } from '../../config';
-import { createBoard, getPosition, getInitialShipPositions, getShipHealth } from './utils';
+import {
+  createBoard,
+  getPosition,
+  getInitialShipPositions,
+  getShipHealth
+} from './utils';
 
 const AXIS = {
   horizontal: 0,
@@ -91,15 +96,17 @@ export function reducer(draft, action) {
         if (cell.isShip) {
           draft.health[cell.value] -= 1;
           draft.myBoard[row][col].isHit = true;
-        }
-        else {
+        } else {
           draft.myBoard[row][col].value = 'X';
         }
       }
       draft.status = {
         isHit: draft.myBoard[row][col].isHit,
         isGame: Object.values(draft.health).every(length => length === 0),
-        message: draft.health[cell.value] === 0 ? `Ship ${draft.ships[cell.value].name} destroyed` : '',
+        message:
+          draft.health[cell.value] === 0
+            ? `Ship ${draft.ships[cell.value].name} destroyed`
+            : '',
         row,
         col
       };
@@ -120,7 +127,7 @@ function shipPositionIterator(position, length, updater) {
   const isVertical = axis === AXIS.vertical;
   const iterator = isVertical ? row : col;
 
-  for (let i = iterator; i < (iterator + length); i++) {
+  for (let i = iterator; i < iterator + length; i++) {
     const r = isVertical ? i : row;
     const c = isVertical ? col : i;
 

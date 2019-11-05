@@ -25,11 +25,14 @@ export function getPosition(pos) {
 }
 
 export function getInitialShipPositions(ships) {
-  return Object.keys(ships).reduce((ac, value) => (ac[value] = '', ac), {});
+  return Object.keys(ships).reduce((ac, value) => ((ac[value] = ''), ac), {});
 }
 
 export function getShipHealth(ships) {
-  return Object.keys(ships).reduce((ac, key) => (ac[key] = ships[key].length, ac), {});
+  return Object.keys(ships).reduce(
+    (ac, key) => ((ac[key] = ships[key].length), ac),
+    {}
+  );
 }
 
 export function validatePos(ship, ships, health) {
@@ -61,7 +64,7 @@ export function validatePos(ship, ships, health) {
 }
 
 function isOutOfBoundary(row, col, axis, length) {
-  return axis === 0 ? (10 - col) < length : (10 - row) < length;
+  return axis === 0 ? 10 - col < length : 10 - row < length;
 }
 
 function getCellNos(row, col, axis, length) {
@@ -71,8 +74,7 @@ function getCellNos(row, col, axis, length) {
     for (let i = 0; i < length; i++) {
       cells.push(`${row}${i + col}`);
     }
-  }
-  else {
+  } else {
     for (let i = 0; i < length; i++) {
       cells.push(`${i + row}${col}`);
     }

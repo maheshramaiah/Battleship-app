@@ -17,18 +17,15 @@ function reducer(state, action) {
     case 'setRoomId': {
       return { ...state, roomId: action.id };
     }
-    default: return state;
+    default:
+      return state;
   }
 }
 
 export default function SocketProvider({ children }) {
   const value = useReducer(reducer, initialState);
 
-  return (
-    <Context.Provider value={value}>
-      {children}
-    </Context.Provider>
-  );
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 
 export function useSocket() {

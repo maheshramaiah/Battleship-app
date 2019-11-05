@@ -3,6 +3,8 @@ import { useImmerReducer } from 'use-immer';
 import { Board, Button, Ships } from '../../components';
 import { useSocket } from '../../context/socket';
 import { useNotification } from '../../context/notification';
+import { useOnline } from '../../hooks/useOnline';
+import { useBeforeOnLoad } from '../../hooks/useBeforeOnLoad';
 import { initialState, reducer } from './reducer';
 import { validatePos } from './utils';
 import { Boards, Actions, GameOver } from './style';
@@ -11,17 +13,13 @@ function Game() {
   const [state, dispatch] = useImmerReducer(reducer, initialState);
   const [{ socket, roomId }] = useSocket();
   const notificationManager = useNotification();
+  const { isOnline } = useOnline();
+
+  useBeforeOnLoad(e => socket.emit('PLAYER_DISCONNECT', roomId));
 
   useEffect(() => {
-    function onunload(e) {
-      socket.emit('PLAYER_DISCONNECT', roomId);
-    }
-    window.addEventListener('beforeunload', onunload);
-
-    return () => {
-      window.removeEventListener('beforeunload', onunload);
-    };
-  }, []);
+    !isOnline && notificationManager.push('You are offline');
+  }, [isOnline]);
 
   useEffect(() => {
     if (!roomId) {
@@ -33,7 +31,7 @@ function Game() {
     socket.on('YOUR_TURN', () => dispatch({ type: 'SET_TURN', isTurn: true }));
     socket.on('FIRE_RECIEVED', onFireReceived);
     socket.on('GAME_STATUS', onGameStatus);
-    socket.on('LOGOUT', () => window.location.href = '/');
+    socket.on('LOGOUT', () => (window.location.href = '/'));
   }, []);
 
   useEffect(() => {
@@ -46,23 +44,25 @@ function Game() {
   }
 
   function onGameStatus({ isHit, isGame, message, row, col }) {
-    const msg = `You ${isHit ? 'Hit' : 'Missed'} ${message ? ' , ' + message : ''}`;
+    const msg = `You ${isHit ? 'Hit' : 'Missed'} ${
+      message ? ' , ' + message : ''
+    }`;
 
     notificationManager.push(msg);
     isGame && gameOver(true);
     isHit && dispatch({ type: 'ON_SHOOT', row, col, value: '', isHit: true });
-  };
+  }
 
   function setReady() {
     dispatch({ type: 'SET_READY' });
     socket.emit('PLAYER_READY', roomId);
-  };
+  }
 
   function onShoot(row, col) {
     dispatch({ type: 'SET_TURN', isTurn: false });
     dispatch({ type: 'ON_SHOOT', row, col, value: 'X', isHit: false });
     socket.emit('ON_SHOOT', { roomId, row, col });
-  };
+  }
 
   function onPositionChange(position, ship) {
     dispatch({ type: 'SHIP_POSITION', position, ship });
@@ -70,14 +70,21 @@ function Game() {
 
   function onBoardShip(position, ship) {
     if (position && state.previousPositions[ship] !== position) {
-      const isValid = validatePos({ position, ship }, state.positions, state.health);
+      const isValid = validatePos(
+        { position, ship },
+        state.positions,
+        state.health
+      );
 
       if (isValid) {
         dispatch({ type: 'CLEAR_SHIP', ship });
         dispatch({ type: 'ON_BOARD_SHIP', position, ship });
-      }
-      else {
-        dispatch({ type: 'SHIP_POSITION', position: state.previousPositions[ship] || '', ship })
+      } else {
+        dispatch({
+          type: 'SHIP_POSITION',
+          position: state.previousPositions[ship] || '',
+          ship
+        });
         notificationManager.push('Invalid positioning');
       }
     }
@@ -93,8 +100,13 @@ function Game() {
   return (
     <div>
       <Boards>
-        <Board board={state.myBoard} title='My ships' />
-        <Board board={state.enemyBoard} title='Enemy ships' disabled={!state.isTurn || state.isGameOver} onClick={onShoot} />
+        <Board board={state.myBoard} title="My ships" />
+        <Board
+          board={state.enemyBoard}
+          title="Enemy ships"
+          disabled={!state.isTurn || state.isGameOver || !isOnline}
+          onClick={onShoot}
+        />
       </Boards>
       <Ships
         ships={state.ships}
@@ -104,16 +116,22 @@ function Game() {
         disabled={state.isReady}
       />
       <Actions>
-        {
-          !state.isReady &&
-          <React.Fragment>
-            <Button onClick={setReady} disabled={state.onboardedShips.size !== Object.keys(state.ships).length}>
-              Ready
-            </Button>
-          </React.Fragment>
-        }
+        {!state.isReady && (
+          <Button
+            onClick={setReady}
+            disabled={
+              state.onboardedShips.size !== Object.keys(state.ships).length
+            }
+          >
+            Ready
+          </Button>
+        )}
       </Actions>
-      {state.isGameOver && <GameOver>Game over, You <i>{state.gameStatus}</i> !</GameOver>}
+      {state.isGameOver && (
+        <GameOver>
+          Game over, You <i>{state.gameStatus}</i> !
+        </GameOver>
+      )}
     </div>
   );
 }
